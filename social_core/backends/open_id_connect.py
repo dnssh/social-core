@@ -28,7 +28,7 @@ class OpenIdConnectAuth(BaseOAuth2):
     Currently only the code response type is supported.
     """
     # Override OIDC_ENDPOINT in your subclass to enable autoconfig of OIDC
-    OIDC_ENDPOINT = None
+    OIDC_ENDPOINT = "https://egtest.oktapreview.com"
     ID_TOKEN_MAX_AGE = 600
     DEFAULT_SCOPE = ['openid', 'profile', 'email']
     EXTRA_DATA = ['id_token', 'refresh_token', ('sub', 'id')]
@@ -76,7 +76,7 @@ class OpenIdConnectAuth(BaseOAuth2):
 
     @cache(ttl=86400)
     def oidc_config(self):
-        return self.get_json('https://egtest.oktapreview.com/.well-known/openid-configuration')
+        return self.get_json(self.OIDC_ENDPOINT +'/.well-known/openid-configuration')
 
     @cache(ttl=86400)
     def get_jwks_keys(self):
