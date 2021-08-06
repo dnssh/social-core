@@ -9,7 +9,7 @@ from jose.utils import base64url_decode
 from social_core.backends.oauth import BaseOAuth2
 from social_core.utils import cache
 from social_core.exceptions import AuthTokenError
-
+import os
 
 class OpenIdConnectAssociation:
     """ Use Association model to save the nonce by force."""
@@ -28,7 +28,8 @@ class OpenIdConnectAuth(BaseOAuth2):
     Currently only the code response type is supported.
     """
     # Override OIDC_ENDPOINT in your subclass to enable autoconfig of OIDC
-    OIDC_ENDPOINT = "https://egtest.oktapreview.com"
+    OIDC_ENDPOINT = os.environ['OIDC_ENDPOINT']
+    print(OIDC_ENDPOINT)
     ID_TOKEN_MAX_AGE = 600
     DEFAULT_SCOPE = ['openid', 'profile', 'email']
     EXTRA_DATA = ['id_token', 'refresh_token', ('sub', 'id')]
