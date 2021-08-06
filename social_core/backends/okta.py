@@ -6,9 +6,10 @@ from urllib.parse import urljoin
 
 from ..utils import append_slash
 from .oauth import BaseOAuth2
-
+import os
 
 class OktaMixin:
+    OIDC_ENDPOINT = os.environ['OIDC_ENDPOINT']
     def api_url(self):
         return append_slash(self.setting('API_URL'))
 
@@ -23,10 +24,8 @@ class OktaMixin:
 
     def oidc_config(self):
         return self.get_json(
-            self._url(
-                'https://egtest.oktapreview.com/.well-known/openid-configuration?client_id={}'.format(
+                self.OIDC_ENDPOINT+'/.well-known/openid-configuration?client_id={}'.format(
                     self.setting('KEY')
-                )
             )
         )
 
